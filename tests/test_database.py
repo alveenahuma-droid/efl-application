@@ -45,7 +45,7 @@ def test_save_transaction_stores_a_row(db_file):                        # Saving
     assert new_id == 1                                                  # The first row gets id 1
     assert count(db_file, "conversion_transaction") == 1                # One row stored
 
-def test_foreign_key_blocks_unknown_user(db_file):                      # Foreign keys are enforced
-    transaction = {"from_currency": "GBP", "to_currency": "USD", "amount": 300, "rate_used": 1.3, "fee_percent": 3.5, "fee_usd": 13.65, "converted_amount": 390}  # Same sample, shorter
-    with pytest.raises(sqlite3.IntegrityError):                         # The database must refuse
-        database.save_transaction(999, transaction, db_file)            # There is no user 999
+def test_foreign_key_blocks_unknown_user(db_file):                      
+    transaction = {"from_currency": "GBP", "to_currency": "USD", "amount": 300, "rate_used": 1.3, "fee_percent": 3.5, "fee_usd": 13.65, "converted_amount": 390}  
+    with pytest.raises(sqlite3.IntegrityError):                         
+        database.save_transaction(999, transaction, db_file)            
