@@ -1,11 +1,11 @@
-from decimal import Decimal                                             # For exact money maths
+from decimal import Decimal                                             
 
-import config                                                           # The fee bands live in config.py
-from currency import round_money                                        # Reuse the 2-decimal rounding rule
+import config                                                           
+from currency import round_money                                        
 
-def conversion_fee_percent(amount):                                     # Which fee band does this amount fall in?
-    """Return the fee percentage for this amount of the initial currency."""  # Docstring
-    for threshold, percent in config.FEE_BANDS:                         # Check the highest band first
+def conversion_fee_percent(amount):                                     
+    """Return the fee percentage for this amount of the initial currency."""  
+    for threshold, percent in config.FEE_BANDS:                        
         if amount > threshold:                                         
             return percent                                              
     return config.BASE_FEE_PERCENT                                     
