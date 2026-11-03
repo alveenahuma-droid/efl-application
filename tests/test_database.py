@@ -1,5 +1,5 @@
 import sqlite3                                                          # To read tables directly and to catch IntegrityError
-from decimal import Decimal                                             # Exact numbers
+from decimal import Decimal                                             
 
 import pytest                                                           # For pytest.raises
 import database                                                         # The file we are testing
