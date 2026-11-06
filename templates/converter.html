@@ -1,0 +1,20 @@
+{% extends "base.html" %}                                               
+{% block title %}Currency converter{% endblock %}                       
+{% block content %}                                                     
+  <h1>Currency converter</h1>                                           
+  <form id="convert-form">                                              
+    <label for="amount">Amount (300 to 5,000)</label>                   
+    <input id="amount" type="text" inputmode="decimal" required>       
+    <label for="from">From</label>                                      
+    <select id="from" class="currency-list"></select>                  
+    <label for="to">To</label>                                          
+    <select id="to" class="currency-list"></select>                     
+    <button type="submit">Convert</button>                              
+  </form>                                                               
+  <p id="warning" class="warning"></p>                                  
+  <p id="error" class="error" role="alert"></p>                         
+  <p id="result" class="result"></p>                                    
+{% endblock %}                                                          
+{% block scripts %}                                                     
+  <script src="{{ url_for('static', filename='js/converter.js') }}"></script>  
+{% endblock %}                                                          

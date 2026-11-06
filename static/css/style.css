@@ -1,0 +1,13 @@
+/* EFL styles. */
+:root { --navy: #1b2a4a; --teal: #0e7490; --amber: #b45309; --green: #15803d; --red: #b91c1c; }  
+body { font-family: Arial, sans-serif; margin: 0; background: #f3f4f6; color: #1f2937; }  
+nav { background: var(--navy); padding: 0.75rem 1rem; }                 
+nav a { color: #ffffff; margin-right: 1rem; text-decoration: none; }    
+nav a:hover { text-decoration: underline; }                             
+main { padding: 1rem; max-width: 60rem; margin: 0 auto; }               
+form { display: grid; gap: 0.5rem; max-width: 24rem; background: #ffffff; padding: 1rem; border-radius: 8px; }  
+input, select, button { padding: 0.5rem; font-size: 1rem; }             
+button { background: var(--teal); color: #ffffff; border: 0; border-radius: 6px; cursor: pointer; }  
+.error { color: var(--red); font-weight: bold; }                        
+.warning { color: var(--amber); font-weight: bold; }                    
+.result { color: var(--green); font-weight: bold; }                     
