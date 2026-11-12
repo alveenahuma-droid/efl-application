@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0c2a3a">
   <title>{% block title %}EFL{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="/">
-        <span class="brand-mark" aria-hidden="true">EFL</span>
-        <span class="brand-copy">
-          <span class="brand-name">EFL</span>
-          <span class="brand-tag">Currency and savings</span>
-        </span>
-      </a>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-top">
+        <span id="today">Currency and savings</span>
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">EFL</span>
+          <span class="brand-copy">
+            <span class="brand-name">EFL</span>
+            <span class="brand-tag">Currency and savings</span>
+          </span>
+        </a>
+      </div>
+      <p class="hero-title"><span id="greeting">Welcome</span>, <em>Demo user</em></p>
       <nav class="site-nav" aria-label="Primary">
         <a href="/" {% if request.endpoint == "pages.index" %}aria-current="page"{% endif %}>Home</a>
         <a href="/converter" {% if request.endpoint == "pages.converter_page" %}aria-current="page"{% endif %}>Converter</a>
@@ -34,6 +37,13 @@
     <p>EFL application. Conversions from 300 to 5,000, with fees shown before you confirm.</p>
   </footer>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script>
+    (function () {
+      var now = new Date(), h = now.getHours();
+      document.getElementById("greeting").textContent = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
+      document.getElementById("today").textContent = now.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    })();
+  </script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

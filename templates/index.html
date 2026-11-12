@@ -3,7 +3,7 @@
 {% block content %}
   <section class="page-head">
     <p class="eyebrow">Currency and savings</p>
-    <h1>Convert money with the fee shown first. Plan savings with the full cost in view.</h1>
+    <h1>Convert money with the fee shown first.</h1>
     <p class="lede">Exchange between six currencies with the fee calculated up front, or project a savings plan over one, five, and ten years.</p>
   </section>
 
@@ -34,24 +34,29 @@
           <tr>
             <th scope="col">Amount in the currency sold</th>
             <th scope="col">Fee</th>
+            <th scope="col">Compared</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>300 to 500</td>
-            <td>3.5%</td>
+            <td class="fee">3.5%</td>
+            <td><span class="bar bar-1" style="--w:100%"></span></td>
           </tr>
           <tr>
             <td>Above 500, up to 1,500</td>
-            <td>2.7%</td>
+            <td class="fee">2.7%</td>
+            <td><span class="bar bar-2" style="--w:77%"></span></td>
           </tr>
           <tr>
             <td>Above 1,500, up to 2,500</td>
-            <td>2.0%</td>
+            <td class="fee">2.0%</td>
+            <td><span class="bar bar-3" style="--w:57%"></span></td>
           </tr>
           <tr>
             <td>Above 2,500, up to 5,000</td>
-            <td>1.5%</td>
+            <td class="fee">1.5%</td>
+            <td><span class="bar bar-4" style="--w:43%"></span></td>
           </tr>
         </tbody>
       </table>
