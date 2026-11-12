@@ -1,6 +1,6 @@
-import sqlite3                                                          # Python's built-in SQLite library; nothing to install
-from decimal import Decimal                                             # For exact rates
-from pathlib import Path                                                # Lets us find schema.sql whatever folder we run from
+import sqlite3                                                          
+from decimal import Decimal                                             
+from pathlib import Path                                               
 
 import config                                                           # Our settings file
 from errors import RateUnavailableError                                 # The error to raise when no rate exists
@@ -99,5 +99,5 @@ def save_transaction(user_id, transaction, db_file=None):               # Store 
         )                                                               # End of the INSERT
         connection.commit()                                             # Save permanently
         return cursor.lastrowid                                         # The auto number SQLite gave the new row
-    finally:                                                            # Runs even after the return above
-        connection.close()                                              # Release the file
+    finally:                                                           
+        connection.close()                                             

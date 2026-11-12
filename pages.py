@@ -1,24 +1,33 @@
-"""The HTML pages."""                         # Docstring: what this file does
-from flask import Blueprint, render_template  # Flask tools: a route group and the page filler
+"""The HTML pages."""
+from flask import Blueprint, render_template
 
-bp = Blueprint("pages", __name__)             # Create the group; app.py registers it
+import routes_auth
 
-@bp.route("/")                                # The home page
-def index():                                  # Runs when the browser asks for /
-    return render_template("index.html")      # Fill in templates/index.html and send it
+bp = Blueprint("pages", __name__)
+bp.register_blueprint(routes_auth.bp)        
 
-@bp.route("/login")                           # Login page (built on Thursday)
-def login_page():                             # Runs for /login
-    return render_template("login.html")      # Send the page
+@bp.route("/")
+def index():
+    return render_template("index.html")
 
-@bp.route("/converter")                       # The converter page
-def converter_page():                         # Runs for /converter
-    return render_template("converter.html")  # Send the page
+@bp.route("/login")
+def login_page():
+    return render_template("login.html")
 
-@bp.route("/quote-page")                      # Quote page (Tuesday)
-def quote_page():                             # Runs for /quote-page
-    return render_template("quote.html")      # Send the page
+@bp.route("/register")
+def register_page():
+    return render_template("register.html")
 
-@bp.route("/history-page")                    # History page (Thursday)
-def history_page():                           # Runs for /history-page
-    return render_template("history.html")    # Send the page
+@bp.route("/converter")
+def converter_page():
+    return render_template("converter.html")
+
+@bp.route("/quote-page")
+@routes_auth.login_required_page
+def quote_page():
+    return render_template("quote.html")
+
+@bp.route("/history-page")
+@routes_auth.login_required_page
+def history_page():
+    return render_template("history.html")

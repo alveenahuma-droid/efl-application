@@ -170,4 +170,3 @@ legend { font-weight: 600; margin-bottom: .3rem; }
   :root { --wrap: calc(100% - 2rem); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-

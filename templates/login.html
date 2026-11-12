@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Login · EFL{% endblock %}
+{% block title %}Sign in · EFL{% endblock %}
 {% block content %}
   <section class="auth-wrap">
-    <form id="login-form" class="panel form auth-card" method="post" onsubmit="event.preventDefault(); document.getElementById('login-error').textContent = 'Sign-in will be available when accounts are connected.';">
-      <p class="eyebrow">Account</p>
-      <h1>Sign in</h1>
-      <p class="lede">Use the email address registered with EFL. Your conversions and saved quotes stay with this account.</p>
+    <form id="login-form" class="panel form auth-card" novalidate>
+      <div>
+        <h1>Sign in</h1>
+        <p class="lede">Use the email address you registered with. Your conversions and saved quotes stay with your account.</p>
+      </div>
       <div class="field">
         <label for="email">Email</label>
         <input id="email" name="email" type="email" autocomplete="username" required placeholder="name@example.com">
@@ -16,6 +17,7 @@
       </div>
       <button type="submit">Sign in</button>
       <p id="login-error" class="error" role="alert"></p>
+      <p class="hint">New to EFL? <a href="/register">Create an account</a>.</p>
     </form>
   </section>
 {% endblock %}

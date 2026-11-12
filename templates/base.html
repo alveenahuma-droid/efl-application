@@ -20,13 +20,13 @@
           </span>
         </a>
       </div>
-      <p class="hero-title"><span id="greeting">Welcome</span>, <em>Demo user</em></p>
+      <p class="hero-title"><span id="greeting">Welcome</span>, <em>{{ user_name or "guest" }}</em></p>
       <nav class="site-nav" aria-label="Primary">
         <a href="/" {% if request.endpoint == "pages.index" %}aria-current="page"{% endif %}>Home</a>
         <a href="/converter" {% if request.endpoint == "pages.converter_page" %}aria-current="page"{% endif %}>Converter</a>
         <a href="/quote-page" {% if request.endpoint == "pages.quote_page" %}aria-current="page"{% endif %}>Quote</a>
         <a href="/history-page" {% if request.endpoint == "pages.history_page" %}aria-current="page"{% endif %}>History</a>
-        <a class="nav-login" href="/login" {% if request.endpoint == "pages.login_page" %}aria-current="page"{% endif %}>Login</a>
+        {% if signed_in %}<a class="nav-login" href="#" id="logout-link">Log out</a>{% else %}<a class="nav-login" href="/login" {% if request.endpoint == "pages.login_page" %}aria-current="page"{% endif %}>Login</a>{% endif %}
       </nav>
     </div>
   </header>
@@ -37,6 +37,7 @@
     <p>EFL application. Conversions from 300 to 5,000, with fees shown before you confirm.</p>
   </footer>
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
   <script>
     (function () {
       var now = new Date(), h = now.getHours();
