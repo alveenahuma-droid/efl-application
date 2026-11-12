@@ -1,20 +1,41 @@
-{% extends "base.html" %}                                               
-{% block title %}Currency converter{% endblock %}                       
-{% block content %}                                                     
-  <h1>Currency converter</h1>                                           
-  <form id="convert-form">                                              
-    <label for="amount">Amount (300 to 5,000)</label>                   
-    <input id="amount" type="text" inputmode="decimal" required>       
-    <label for="from">From</label>                                      
-    <select id="from" class="currency-list"></select>                  
-    <label for="to">To</label>                                          
-    <select id="to" class="currency-list"></select>                     
-    <button type="submit">Convert</button>                              
-  </form>                                                               
-  <p id="warning" class="warning"></p>                                  
-  <p id="error" class="error" role="alert"></p>                         
-  <p id="result" class="result"></p>                                    
-{% endblock %}                                                          
-{% block scripts %}                                                     
-  <script src="{{ url_for('static', filename='js/converter.js') }}"></script>  
-{% endblock %}                                                          
+{% extends "base.html" %}
+{% block title %}Currency converter · EFL{% endblock %}
+{% block content %}
+  <section class="page-head">
+    <p class="eyebrow">Exchange</p>
+    <h1>Currency converter</h1>
+    <p class="lede">Enter an amount between 300 and 5,000. The fee is taken from the amount you sell and shown in US dollars.</p>
+  </section>
+
+  <div class="split">
+    <form id="convert-form" class="panel form">
+      <div class="field">
+        <label for="amount">Amount</label>
+        <input id="amount" name="amount" type="text" inputmode="decimal" autocomplete="off" required placeholder="300.00">
+        <p class="hint">In the currency you are selling. Minimum 300, maximum 5,000.</p>
+      </div>
+      <div class="pair">
+        <div class="field">
+          <label for="from">From</label>
+          <select id="from" name="from" class="currency-list"></select>
+        </div>
+        <div class="field">
+          <label for="to">To</label>
+          <select id="to" name="to" class="currency-list"></select>
+        </div>
+      </div>
+      <button type="submit">Convert</button>
+    </form>
+
+    <section class="panel result-panel" aria-live="polite">
+      <h2>Result</h2>
+      <p id="result" class="result"></p>
+      <p id="warning" class="warning"></p>
+      <p id="error" class="error" role="alert"></p>
+      <p id="result-placeholder" class="placeholder">The rate, fee, and amount you receive appear here.</p>
+    </section>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/converter.js') }}"></script>
+{% endblock %}

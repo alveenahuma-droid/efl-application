@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}History · EFL{% endblock %}
+{% block content %}
+  <section class="page-head">
+    <p class="eyebrow">Account</p>
+    <h1>History</h1>
+    <p class="lede">Completed conversions and saved savings quotes for the signed-in account.</p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Conversions</h2>
+      <p>Each row is a conversion that completed, including the rate and fee used at the time.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="data">
+        <caption class="sr-only">Conversion history</caption>
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Sold</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Bought</th>
+            <th scope="col">Received</th>
+            <th scope="col">Rate</th>
+            <th scope="col">Fee</th>
+          </tr>
+        </thead>
+        <tbody id="conversion-history">
+          <tr class="empty-row">
+            <td colspan="7">No conversions yet. A completed conversion is listed here.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Saved quotes</h2>
+      <p>Quotes you choose to keep, with the plan and the amounts you entered.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="data">
+        <caption class="sr-only">Saved quotes</caption>
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Plan</th>
+            <th scope="col">Lump sum</th>
+            <th scope="col">Monthly</th>
+            <th scope="col">Recommended</th>
+          </tr>
+        </thead>
+        <tbody id="quote-history">
+          <tr class="empty-row">
+            <td colspan="5">No saved quotes yet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

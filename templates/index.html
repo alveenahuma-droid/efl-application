@@ -1,6 +1,78 @@
 {% extends "base.html" %}
-{% block title %}EFL{% endblock %}
+{% block title %}EFL · Currency and savings{% endblock %}
 {% block content %}
-  <h1>EFL application</h1>
-  <p>Currency conversion and savings quotes.</p>
+  <section class="page-head">
+    <p class="eyebrow">Currency and savings</p>
+    <h1>Convert money with the fee shown first. Plan savings with the full cost in view.</h1>
+    <p class="lede">Exchange between six currencies with the fee calculated up front, or project a savings plan over one, five, and ten years.</p>
+  </section>
+
+  <div class="action-grid">
+    <a class="action-card" href="/converter">
+      <p class="eyebrow">Exchange</p>
+      <h2>Currency converter</h2>
+      <p>Sell one currency and buy another. The rate, fee, and amount you receive are shown together.</p>
+      <span class="text-link">Open the converter</span>
+    </a>
+    <a class="action-card" href="/quote-page">
+      <p class="eyebrow">Savings</p>
+      <h2>Savings quote</h2>
+      <p>Choose a plan, enter a lump sum and a monthly amount, and review profit, fees, and tax.</p>
+      <span class="text-link">Get a savings quote</span>
+    </a>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Conversion fees</h2>
+      <p>The fee depends on the amount in the currency you sell. It is charged in US dollars.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="data">
+        <caption class="sr-only">Fee percentage by amount</caption>
+        <thead>
+          <tr>
+            <th scope="col">Amount in the currency sold</th>
+            <th scope="col">Fee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>300 to 500</td>
+            <td>3.5%</td>
+          </tr>
+          <tr>
+            <td>Above 500, up to 1,500</td>
+            <td>2.7%</td>
+          </tr>
+          <tr>
+            <td>Above 1,500, up to 2,500</td>
+            <td>2.0%</td>
+          </tr>
+          <tr>
+            <td>Above 2,500, up to 5,000</td>
+            <td>1.5%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="steps">
+    <h2>How a conversion works</h2>
+    <ol>
+      <li>
+        <h3>Enter the amount</h3>
+        <p>Use a figure from 300 to 5,000 in the currency you are selling.</p>
+      </li>
+      <li>
+        <h3>Choose both currencies</h3>
+        <p>GBP, USD, EUR, BRL, JPY, and TRY are available. The two sides must differ.</p>
+      </li>
+      <li>
+        <h3>Review the result</h3>
+        <p>You see the rate, the fee, and the amount you receive. The conversion is kept in your history.</p>
+      </li>
+    </ol>
+  </section>
 {% endblock %}
