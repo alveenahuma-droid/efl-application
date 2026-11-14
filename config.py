@@ -1,14 +1,16 @@
-from decimal import Decimal                                             # Decimal does exact money maths; float can drift (0.1 + 0.2 is not 0.3)
+from decimal import Decimal                                             
 
-DB_FILE = "efl.db"                                                      # Name of the SQLite database file, created in the project folder
-LOG_DIR = "logs"                                                        # Folder for log files (used on Thursday)
-CACHE_DIR = "cache"                                                     # Folder for cached user data (used on Thursday)
+import os
 
-MIN_TRANSACTION = Decimal("300")                                        # Annexe A: smallest amount allowed, in the initial currency
-MAX_TRANSACTION = Decimal("5000")                                       # Annexe A: largest amount allowed, in the initial currency
-CURRENCIES = ["GBP", "USD", "EUR", "BRL", "JPY", "TRY"]                 # Annexe A: the six currency codes the system supports
+DB_FILE = "efl.db"                                                      
+LOG_DIR = "logs"                                                        
+CACHE_DIR = "cache"                                                     
 
-FEE_BANDS = [                                                           # Fee bands as (amount above, fee percent), highest band first
+MIN_TRANSACTION = Decimal("300")                                        
+MAX_TRANSACTION = Decimal("5000")                                       
+CURRENCIES = ["GBP", "USD", "EUR", "BRL", "JPY", "TRY"]                 
+
+FEE_BANDS = [                                                           
     (Decimal("2500"), Decimal("1.5")),                                  
     (Decimal("1500"), Decimal("2.0")),                                  
     (Decimal("500"), Decimal("2.7")),                                   
@@ -46,3 +48,6 @@ TAX_RULES = [
     (3, 12000, 10),                                                     
     (3, 40000, 20),                                                     
 ]                                                                       
+
+RATE_API_URL = os.environ.get("EFL_RATE_URL", "")   # Live rate service. Empty means use the saved sample rates.
+RATE_TIMEOUT_SECONDS = 5

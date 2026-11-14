@@ -1,8 +1,11 @@
+from decimal import Decimal, InvalidOperation
+
 from flask import Blueprint, jsonify, request
 
 import errors
 import quotes
 import routes_auth
+from errors import InputError
 
 bp = Blueprint("routes_quote", __name__)
 
@@ -12,11 +15,27 @@ PLAN_MAP = {
 }
 
 
+def _money(value, field):
+    """Read a money amount typed by the user. Raises InputError with a clear message."""
+    text = str(value if value not in (None, "") else "0").replace(",", "").strip()
+    try:
+        amount = Decimal(text)
+    except InvalidOperation:
+        raise InputError(f"{field} must be a number, for example 5000 or 5000.00.")
+    if not amount.is_finite():
+        raise InputError(f"{field} must be a number, for example 5000 or 5000.00.")
+    if amount < 0:
+        raise InputError(f"{field} cannot be negative.")
+    if amount.as_tuple().exponent < -2:
+        raise InputError(f"{field} can have at most two decimal places.")
+    return amount
+
+
 def _parse_request():
-    """Read and map the request fields shared by quote and save."""
+    """Read and check the fields shared by quote and save. Raises InputError for bad input."""
     data = request.get_json(silent=True) or {}
-    lump = data.get("lump_sum", 0) or 0
-    monthly = data.get("monthly_amount", 0) or 0
+    lump = _money(data.get("lump_sum"), "Lump sum")
+    monthly = _money(data.get("monthly_amount"), "Monthly amount")
     preferred_raw = data.get("plan")
     preferred = PLAN_MAP.get(str(preferred_raw)) if preferred_raw is not None else None
     return lump, monthly, preferred
@@ -24,7 +43,10 @@ def _parse_request():
 
 @bp.post("/api/quote")
 def api_quote():
-    lump, monthly, preferred = _parse_request()
+    try:
+        lump, monthly, preferred = _parse_request()
+    except InputError as error:
+        return jsonify({"error": str(error)}), 400  # user fault: show the message, do not log it
     try:
         results, recommended = quotes.calculate_quote(lump, monthly, preferred)
         return jsonify({
@@ -33,8 +55,8 @@ def api_quote():
             "recommended_name": quotes.PLANS[recommended]["name"] if recommended else None,
         })
     except Exception as e:
-        errors.log_error("routes_quote.api_quote", str(e))
-        return jsonify({"error": "Could not calculate quote. Please check your inputs."}), 400
+        errors.log_error("routes_quote.api_quote", str(e))  # internal fault: log it
+        return jsonify({"error": "Could not calculate quote. Please try again."}), 500
 
 
 @bp.post("/api/quotes/save")
@@ -43,12 +65,16 @@ def api_save_quote():
     if user_id is None:
         return jsonify({"error": "Sign in to save a quote."}), 401
 
-    lump, monthly, preferred = _parse_request()
+    try:
+        lump, monthly, preferred = _parse_request()
+    except InputError as error:
+        return jsonify({"error": str(error)}), 400
+
     try:
         results, recommended = quotes.calculate_quote(lump, monthly, preferred)
     except Exception as e:
         errors.log_error("routes_quote.api_save_quote", str(e))
-        return jsonify({"error": "Could not calculate quote. Please check your inputs."}), 400
+        return jsonify({"error": "Could not calculate quote. Please try again."}), 500
 
     chosen = preferred or recommended
     if chosen is None:
