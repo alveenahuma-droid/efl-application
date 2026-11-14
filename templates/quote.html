@@ -70,6 +70,13 @@
           </tbody>
         </table>
       </div>
+      <div class="actions">
+        <button type="button" id="save-quote" hidden>Save quote</button>
+        <p id="save-message" class="status" role="status"></p>
+      </div>
     </section>
   </div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/quote.js') }}"></script>
 {% endblock %}
