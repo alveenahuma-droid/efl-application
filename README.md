@@ -22,6 +22,4 @@ For anything other than local use, set a long random `EFL_SECRET_KEY` environmen
 DB_FILE, LOG_DIR, CACHE_DIR, MIN_TRANSACTION / MAX_TRANSACTION (300 / 5,000), CURRENCIES,
 FEE_BANDS and BASE_FEE_PERCENT, SAMPLE_RATES_TO_USD, PLANS, TAX_RULES, DEMO_USER_ID.
 
-## Current status
-Working: currency conversion with Annexe A limits and fee bands, accounts (register, sign in, sign out), stored transactions.
-Not yet built: savings quotes and recommendation, error log to database, network log file, data caching, live exchange rates.
+
