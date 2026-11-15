@@ -32,7 +32,7 @@ async function handleConvert(event) {                                   // Runs 
       return;                                                           // Stop here
     }                                                                   // End of the error case
     const d = reply.data;                                               // Shorter name for the answer
-    showMessage("result", formatMoney(d.amount, d.from) + " = " + formatMoney(d.converted, d.to) + " at rate " + d.rate + ". Fee: " + formatMoney(d.fee_usd, "USD") + " (" + d.fee_percent + "%).");  // One sentence with the answer
+    showMessage("result", formatMoney(d.amount, d.from) + " = " + formatMoney(d.converted, d.to) + " at rate " + Number(d.rate).toFixed(2) + ". Fee: " + formatMoney(d.fee_usd, "USD") + " (" + d.fee_percent + "%).");  // One sentence with the answer
     if (d.warning) {                                                    // The server sent a warning
       showMessage("warning", d.warning);                                // Show it
     }                                                                   // End of the warning case
@@ -50,7 +50,7 @@ async function startConverter() {                                       // Set t
     document.getElementById("from").value = saved.from;                 // Restore the first currency
     document.getElementById("to").value = saved.to;                     // Restore the second currency
   }                                                                     // End of the restore
-  document.getElementById("convert-form").addEventListener("submit", handleConvert);  // When the form is sent, run handleConvert
-}                                                                       // End of startConverter
+  document.getElementById("convert-form").addEventListener("submit", handleConvert);  
+}                                                                       
 
-startConverter();                                                       // Run it as soon as the page loads
+startConverter();                                                       

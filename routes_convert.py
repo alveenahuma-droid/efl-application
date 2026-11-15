@@ -1,3 +1,4 @@
+import threading
 from flask import Blueprint, current_app, jsonify, request              
 
 import currency                                                         
@@ -23,7 +24,9 @@ def convert():
         to_code = validators.validate_currency(data.get("to"))          
         if from_code == to_code:                                        
             raise InputError("Choose two different currencies.")        
-        warning = currency.refresh_rates(db_file)                       
+        # Refresh in the background so the conversion does not wait for the rate service
+        threading.Thread(target=currency.refresh_rates, args=(db_file,), daemon=True).start()
+        warning = currency.stale_rate_warning(db_file)
         rate = currency.get_rate(from_code, to_code, db_file)          
         from_usd = currency.get_rate(from_code, "USD", db_file)         
         fee_percent = fees.conversion_fee_percent(amount)               

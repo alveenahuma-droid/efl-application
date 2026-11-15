@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       lastRequest = { lump_sum: lump, monthly_amount: monthly, plan: plan };
       renderQuote(data);
+      drawChart(data.results);
       const anyEligible = (data.results || []).some((r) => r.eligible);
       setSaveState(anyEligible, "");
     } catch (problem) {
@@ -134,4 +135,23 @@ function renderQuote(data) {
       }
     }
   }
+}
+
+function drawChart(results) {
+  const canvas = document.getElementById("quote-chart");
+  if (!canvas || !window.Chart) return;
+  const eligible = results.filter((r) => r.eligible);
+  if (window.quoteChart) window.quoteChart.destroy();
+  window.quoteChart = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels: eligible.map((r) => r.plan_name),
+      datasets: [{
+        label: "Value after 10 years, maximum (GBP)",
+        data: eligible.map((r) => Number(r.projections.find((p) => p.years === 10).max_final)),
+        backgroundColor: "#2a6fdb",
+      }],
+    },
+    options: { scales: { y: { beginAtZero: true } } },
+  });
 }

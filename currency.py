@@ -21,21 +21,24 @@ def convert(amount, rate):
 
 def refresh_rates(db_file=None):
     """
-    Try to load live rates from config.RATE_API_URL. The service must return
-    JSON like {"base": "USD", "rates": {"GBP": 0.77, ...}} where each rate is
-    units of that currency per 1 USD.
+    Load live rates from config.RATE_API_URL, at most once an hour.
 
-    Returns None when everything is fine or no live service is configured.
-    If the service fails, the failure is logged to the database and to
-    logs/network.log, and a warning is returned so the user sees that the
-    saved rate is being used. The saved rate is not replaced.
+    The service must return JSON like {"base": "USD", "rates": {"GBP": 0.77, ...}},
+    where each rate is units of that currency per 1 USD.
+
+    Returns None when the rates are fine or no live service is configured.
+    A failed refresh is always logged (database and logs/network.log). A warning
+    is returned only if the newest live rate is more than 24 hours old.
     """
     import json
     import urllib.request
     import config
+    import database
     import errors
 
     if not config.RATE_API_URL:
+        return None
+    if database.has_recent_live_rate(60, db_file):   # Already refreshed in the last hour
         return None
     try:
         with urllib.request.urlopen(config.RATE_API_URL, timeout=config.RATE_TIMEOUT_SECONDS) as response:
@@ -48,4 +51,14 @@ def refresh_rates(db_file=None):
         return None
     except Exception as problem:
         errors.log_network_failure(f"rate refresh failed: {problem}", db_file=db_file)
+        if database.has_recent_live_rate(24 * 60, db_file):   # Live rates still fresh enough: no warning
+            return None
         return "Live rates are unavailable, so the last saved rate is used and may be out of date."
+
+
+def stale_rate_warning(db_file=None):
+    """Quick check with no network call: warn only if the newest live rate is more than 24 hours old."""
+    import database
+    if database.has_recent_live_rate(24 * 60, db_file):
+        return None
+    return "Live rates are unavailable, so the last saved rate is used and may be out of date."

@@ -101,3 +101,29 @@ def save_transaction(user_id, transaction, db_file=None):               # Store 
         return cursor.lastrowid                                         # The auto number SQLite gave the new row
     finally:                                                           
         connection.close()                                             
+
+def save_live_rates(rates_to_usd, db_file=None):
+    """Store one new live rate per currency. rates_to_usd maps code -> US dollars per unit (Decimal)."""
+    connection = get_connection(db_file)
+    try:
+        for code, rate in rates_to_usd.items():
+            connection.execute(
+                "INSERT INTO exchange_rate (currency_code, rate_to_usd, source) VALUES (?, ?, 'live')",
+                (code, float(rate)),
+            )
+        connection.commit()
+    finally:
+        connection.close()
+
+
+def has_recent_live_rate(minutes, db_file=None):
+    """True if a live rate was saved in the last `minutes` minutes (SQLite uses UTC, like the default timestamp)."""
+    connection = get_connection(db_file)
+    try:
+        row = connection.execute(
+            "SELECT 1 FROM exchange_rate WHERE source = 'live' AND fetched_at >= datetime('now', ?) LIMIT 1",
+            (f"-{int(minutes)} minutes",),
+        ).fetchone()
+    finally:
+        connection.close()
+    return row is not None
